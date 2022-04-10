@@ -1,0 +1,1 @@
+## MERN-CHAT-APP is a realtime chat application build with React, Redux, Express and MongoDB
