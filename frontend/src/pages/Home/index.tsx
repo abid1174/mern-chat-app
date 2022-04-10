@@ -1,13 +1,23 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ChatImage from "../../assets/chat-1.png";
 import SingIn from "../../components/SingIn";
 import SignUp from "../../components/SignUp";
+import clsx from "clsx";
+import useToast from "../../hooks/useToast";
 
 export default function Home() {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState<boolean>(true);
+  const toast = useToast();
 
-  const handleChangeForm = (value) => {
+  console.log(toast);
+
+  const handleChangeForm = (value: boolean) => {
     setIsLogin(value);
+    //@ts-ignore
+    toast.open({
+      message: "Hello there !",
+      status: "warning",
+    });
   };
 
   return (
@@ -22,9 +32,10 @@ export default function Home() {
       <div className="bg-gray-800 flex flex-col justify-center">
         <div className="relative max-w-[400px] min-h-[550px]  w-full mx-auto group perspective">
           <div
-            className={`relative preserve-3d w-full h-full duration-1000 ${
+            className={clsx(
+              "relative preserve-3d w-full h-full duration-1000",
               !isLogin && "rotate-y-180"
-            }`}
+            )}
           >
             <div className="absolute w-full h-full backface-hidden">
               <SingIn handleChangeForm={handleChangeForm} />

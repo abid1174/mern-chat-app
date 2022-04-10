@@ -23,7 +23,24 @@ const myclass = plugin(function ({ addUtilities }) {
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        fadeOut: "fadeOut 1s ease-out",
+        fadeIn: "fadeIn .4s ease-in",
+      },
+      keyframes: {
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "50%": { opacity: ".5" },
+          "100%": { opacity: "1" },
+        },
+        fadeOut: {
+          "0%": { opacity: "1" },
+          "50%": { opacity: ".5" },
+          "100%": { opacity: "0" },
+        },
+      },
+    },
   },
   plugins: [myclass],
 };

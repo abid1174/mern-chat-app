@@ -2,7 +2,6 @@ import { useRegisterUserMutation } from "../services/user";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import React from "react";
 import * as yup from "yup";
 
 const schema = yup
@@ -15,7 +14,11 @@ const schema = yup
   })
   .required();
 
-export default function SignUp({ handleChangeForm }) {
+interface IProps {
+  handleChangeForm: (value: boolean) => void;
+}
+
+export default function SignUp({ handleChangeForm }: IProps) {
   const navigate = useNavigate();
   const {
     register,
@@ -26,7 +29,7 @@ export default function SignUp({ handleChangeForm }) {
   const [handleRegister, { data, isLoading, isError, isSuccess }] =
     useRegisterUserMutation();
 
-  const handleRegisterUser = (data) => {
+  const handleRegisterUser = (data: any) => {
     let { image, ...rest } = data;
     handleRegister(rest);
   };

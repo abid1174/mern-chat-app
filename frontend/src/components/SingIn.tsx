@@ -13,7 +13,10 @@ const schema = yup
   })
   .required();
 
-export default function SingIn({ handleChangeForm }) {
+interface IProps {
+  handleChangeForm: (value: boolean) => void;
+}
+export default function SingIn({ handleChangeForm }: IProps) {
   const navigate = useNavigate();
   const [handleLogin, { data, isError, isLoading, isSuccess }] =
     useLoginUserMutation();
