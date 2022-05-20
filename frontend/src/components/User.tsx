@@ -20,7 +20,7 @@ export default function User({
   unread,
 }: Props) {
   return (
-    <div className="relative rounded-lg px-2 py-2 flex items-center space-x-3 hover:border-gray-400  mb-3 hover:bg-gray-600">
+    <div className="relative rounded-lg px-2 py-2 flex items-center space-x-3 hover:border-gray-400  mb-3 bg-gray-600 bg-opacity-30 hover:bg-opacity-90">
       <div className="flex-shrink-0">
         <Avatar image={image} size="lg" status={!!status} />
       </div>

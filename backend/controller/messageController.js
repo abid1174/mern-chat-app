@@ -45,11 +45,11 @@ const sendMessage = asyncHandler(async (req, res) => {
       data: message,
     });
   } catch (error) {
-    throw new Error(error.message);
-    // return res.status(400).send({
-    //   status: false,
-    //   message: "Something went wrong sending the message!",
-    // });
+    // throw new Error(error.message);
+    return res.status(400).send({
+      status: false,
+      message: "Something went wrong sending the message!",
+    });
   }
 });
 
@@ -58,7 +58,27 @@ const sendMessage = asyncHandler(async (req, res) => {
  * @params userId
  * @desc Get All Messages with ID
  */
-const allMessages = asyncHandler(async (req, res) => {});
+const allMessages = asyncHandler(async (req, res) => {
+  try {
+    const messages = await MessageModel.find({
+      chat: req.params.chatId,
+    })
+      .populate("sender", "name image email")
+      .populate("chat");
+
+    return res.status(200).send({
+      status: true,
+      message: "success",
+      data: messages,
+    });
+  } catch (error) {
+    return res.status(500).send({
+      status: false,
+      message: "Something went wrong getting all messages!",
+      error: error.message,
+    });
+  }
+});
 
 module.exports = {
   sendMessage,

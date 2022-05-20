@@ -5,7 +5,7 @@ type Props = {};
 
 export default function Navbar({}: Props) {
   return (
-    <nav className="flex-shrink-0 bg-gray-800 z-10">
+    <nav className="flex-shrink-0 bg-gray-900 z-10">
       <div className="mx-w-7xl px-2 sm:px-4 lg:px-8 mx-auto">
         <div className="relative flex items-center justify-between h-16">
           <div></div>
