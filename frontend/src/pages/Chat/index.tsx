@@ -7,8 +7,19 @@ import SearchIcon from "../../assets/icons/searchIcon";
 import User from "../../components/User";
 import Message from "../../components/Message";
 import { HiOutlineMicrophone } from "react-icons/hi";
+import { useEffect } from "react";
+import { useCurrentUserQuery } from "../../redux/user/userService";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/user/userSlice";
 
 export default function Chat() {
+  const dispatch = useDispatch();
+  const { data, isError, isLoading, isSuccess } = useCurrentUserQuery();
+
+  useEffect(() => {
+    dispatch(setUser(data));
+  }, [isSuccess]);
+
   return (
     <div>
       <div>

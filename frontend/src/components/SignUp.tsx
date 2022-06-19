@@ -1,8 +1,9 @@
-import { useRegisterUserMutation } from "../services/user";
+import { useRegisterUserMutation } from "../redux/user/userService";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
+import { toast } from "react-toastify";
 
 const schema = yup
   .object()
@@ -38,6 +39,10 @@ export default function SignUp({ handleChangeForm }: IProps) {
 
   if (isSuccess) {
     handleChangeForm(true);
+  }
+
+  if (isError) {
+    toast.error("Something went wrong!");
   }
 
   return (

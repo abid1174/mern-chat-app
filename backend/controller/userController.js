@@ -71,7 +71,24 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 /**
- * Search User
+ * Get Current User
+ */
+const getCurrentUser = asyncHandler(async (req, res) => {
+  const user = await UserModel.findOne({
+    _id: req.user._id,
+  });
+
+  res.send({
+    name: user.name,
+    email: user.email,
+    image: user.image,
+    id: user._id,
+  });
+});
+
+/**
+ * Search User or get All
+ * /api/user/all?search=abid
  */
 const getUsers = asyncHandler(async (req, res) => {
   const keyword = req.query.search
@@ -94,4 +111,5 @@ module.exports = {
   registerUser,
   loginUser,
   getUsers,
+  getCurrentUser,
 };

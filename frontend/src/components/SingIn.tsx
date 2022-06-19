@@ -3,7 +3,11 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useLoginUserMutation } from "../services/user";
+import { useLoginUserMutation } from "../redux/user/userService";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/user/userSlice";
+import { setToken } from "../utils/token";
 
 const schema = yup
   .object()
@@ -18,8 +22,11 @@ interface IProps {
 }
 export default function SingIn({ handleChangeForm }: IProps) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [handleLogin, { data, isError, isLoading, isSuccess }] =
     useLoginUserMutation();
+
   const {
     register,
     handleSubmit,
@@ -29,8 +36,14 @@ export default function SingIn({ handleChangeForm }: IProps) {
   });
 
   useEffect(() => {
+    if (data) {
+      const { token, ...rest } = data;
+      dispatch(setUser(rest));
+      setToken(token);
+    }
+
     if (isSuccess) navigate("chat");
-  }, [isSuccess]);
+  }, [isSuccess, data]);
 
   return (
     <form

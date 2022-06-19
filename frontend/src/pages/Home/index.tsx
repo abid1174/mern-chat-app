@@ -3,21 +3,12 @@ import ChatImage from "../../assets/img/chat-1.png";
 import SingIn from "../../components/SingIn";
 import SignUp from "../../components/SignUp";
 import clsx from "clsx";
-import useToast from "../../hooks/useToast";
 
 export default function Home() {
   const [isLogin, setIsLogin] = useState<boolean>(true);
-  const toast = useToast();
-
-  console.log(toast);
 
   const handleChangeForm = (value: boolean) => {
     setIsLogin(value);
-    //@ts-ignore
-    toast.open({
-      message: "Hello there !",
-      status: "warning",
-    });
   };
 
   return (
