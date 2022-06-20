@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "src",
     "types": ["react/next", "react-dom/next"],
     "target": "es5",
     "lib": [

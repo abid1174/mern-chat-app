@@ -38,6 +38,14 @@ export const userApi = createApi({
         },
       }),
     }),
+    getAllUsers: builder.query<IUser[], void>({
+      query: () => ({
+        url: "/user/all",
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      }),
+    }),
   }),
 });
 
@@ -45,4 +53,5 @@ export const {
   useRegisterUserMutation,
   useLoginUserMutation,
   useCurrentUserQuery,
+  useGetAllUsersQuery,
 } = userApi;

@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import Home from "./pages/Home";
-import Chat from "./pages/Chat";
+import Home from "./pages/Home/Home";
+import Chat from "./pages/Chat/Chat";
 import "./App.css";
 
 function App() {

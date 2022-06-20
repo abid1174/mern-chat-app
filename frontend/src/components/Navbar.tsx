@@ -1,9 +1,12 @@
 import Avatar from "./Avatar";
 import person1 from "../assets/img/person-1.jpeg";
+import { useAppSelector } from "../redux/store";
+import { IUser } from "../model/user";
 
 type Props = {};
 
 export default function Navbar({}: Props) {
+  const { image }: IUser = useAppSelector((state) => state?.user?.data);
   return (
     <nav className="flex-shrink-0 bg-gray-900 z-10">
       <div className="mx-w-7xl px-2 sm:px-4 lg:px-8 mx-auto">
@@ -41,7 +44,7 @@ export default function Navbar({}: Props) {
               </div>
               <div className="ml-4 relative flex-shrink-0">
                 <div>
-                  <Avatar image={person1} status={false} size="md" />
+                  <Avatar image={image} status={false} size="md" />
                 </div>
               </div>
             </div>
