@@ -18,7 +18,10 @@ const accessChat = asyncHandler(async (req, res) => {
     ],
   })
     .populate("users", "-password")
+    .populate("owner", "-password")
     .populate("latestMessage");
+
+  console.log(hasChat);
 
   hasChat = await UserModel.populate(hasChat, {
     path: "latestMessage.sender",
@@ -31,14 +34,17 @@ const accessChat = asyncHandler(async (req, res) => {
     const newChat = {
       name: "chat1",
       isGroupChat: false,
-      users: [req.user._id, userId],
+      owner: req.user._id,
+      users: [userId],
     };
 
     try {
       const createdChat = await ChatModel.create(newChat);
       const fullChat = await ChatModel.findOne({
         _id: createdChat._id,
-      }).populate("users", "-password");
+      })
+        .populate("users", "-password")
+        .populate("owner", "-password");
 
       res.status(201).send({ data: fullChat });
     } catch (error) {
@@ -156,31 +162,31 @@ const addToGroup = asyncHandler(async (req, res) => {
 });
 
 const removeFromGroup = asyncHandler(async (req, res) => {
-    const { chatId, userId } = req.body;
-  
-    if (!chatId && !userId) {
-      return res
-        .status(400)
-        .send({ message: "credentials error", status: false });
-    }
-  
-    const updatedChat = await ChatModel.findByIdAndUpdate(
-      chatId,
-      {
-        $pull: { users: userId },
-      },
-      { new: true }
-    )
-      .populate("users", "-password")
-      .populate("groupAdmin", "-password");
-  
-    if (!updatedChat) {
-      res.status(404);
-      throw new Error("Chat not found");
-    } else {
-      res.status(200).send(updatedChat);
-    }
-  });
+  const { chatId, userId } = req.body;
+
+  if (!chatId && !userId) {
+    return res
+      .status(400)
+      .send({ message: "credentials error", status: false });
+  }
+
+  const updatedChat = await ChatModel.findByIdAndUpdate(
+    chatId,
+    {
+      $pull: { users: userId },
+    },
+    { new: true }
+  )
+    .populate("users", "-password")
+    .populate("groupAdmin", "-password");
+
+  if (!updatedChat) {
+    res.status(404);
+    throw new Error("Chat not found");
+  } else {
+    res.status(200).send(updatedChat);
+  }
+});
 
 module.exports = {
   accessChat,
@@ -188,5 +194,5 @@ module.exports = {
   createGroupChat,
   renameGroup,
   addToGroup,
-  removeFromGroup
+  removeFromGroup,
 };

@@ -104,7 +104,14 @@ const getUsers = asyncHandler(async (req, res) => {
     _id: { $ne: req.user._id },
   });
 
-  res.send(users);
+  let finalUsers = [];
+  if (users) {
+    users.forEach(({ _id, name, image, email }) => {
+      finalUsers.push({ name, email, image, id: _id });
+    });
+  }
+
+  res.send(finalUsers);
 });
 
 module.exports = {

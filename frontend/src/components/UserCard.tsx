@@ -3,24 +3,31 @@ import Avatar from "./Avatar";
 import person1 from "../assets/img/person-1.jpeg";
 
 type Props = {
+  id: string;
   image: string;
   name: string;
   latestMsg: string;
   time: string;
   status: string;
   unread: number;
+  handleClick: Function;
 };
 
 export default function User({
+  id,
   image,
   name,
   latestMsg,
   time,
   status,
   unread,
+  handleClick,
 }: Props) {
   return (
-    <div className="relative rounded-lg px-2 py-2 flex items-center space-x-3 hover:border-gray-400  mb-3 bg-gray-600 bg-opacity-30 hover:bg-opacity-90">
+    <div
+      className="relative rounded-lg px-2 py-2 flex items-center space-x-3 hover:border-gray-400  mb-3 bg-gray-600 bg-opacity-30 hover:bg-opacity-90"
+      onClick={() => handleClick(id)}
+    >
       <div className="flex-shrink-0">
         <Avatar image={image} size="lg" status={!!status} />
       </div>
