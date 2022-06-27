@@ -12,16 +12,14 @@ const accessChat = asyncHandler(async (req, res) => {
 
   let hasChat = await ChatModel.find({
     isGroupChat: false,
-    $and: [
-      { users: { $elemMatch: { $eq: req.user._id } } },
-      { users: { $elemMatch: { $eq: userId } } },
-    ],
+    users: [userId],
+    owner: req.user._id,
   })
     .populate("users", "-password")
     .populate("owner", "-password")
     .populate("latestMessage");
 
-  console.log(hasChat);
+  console.log("haschat ---------->", hasChat);
 
   hasChat = await UserModel.populate(hasChat, {
     path: "latestMessage.sender",
