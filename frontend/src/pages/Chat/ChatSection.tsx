@@ -3,22 +3,36 @@ import Avatar from "components/Avatar";
 import { EmptyUser, IUser } from "model/user";
 import Messages from "./Messages";
 import { useAppSelector } from "redux/store";
+import React from "react";
+import { useSendMessageMutation } from "redux/chat/chatService";
 
 type Props = {};
 
 export default function ChatSection({}: Props) {
+  const [handleSendMsg, { isSuccess }] = useSendMessageMutation();
   const chatStateData: any = useAppSelector((state) => state?.chat?.data);
   const {
     _id: chatId,
     isGroupChat,
     users: participants,
-    owner,
+    organizer,
   } = chatStateData;
 
   let participant = EmptyUser;
   if (Array.isArray(participants) && participants.length > 0) {
     participant = participants[0];
   }
+
+  const handleSendMessage = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      // @ts-ignore
+      const content = e.target?.value;
+      handleSendMsg({
+        content,
+        chatId,
+      });
+    }
+  };
 
   return (
     <div className="flex-1 p:2 sm:pb-6 justify-between flex flex-col h-screen xl:flex">
@@ -46,7 +60,7 @@ export default function ChatSection({}: Props) {
         </div>
       </div>
       <Messages chatId={chatId} />
-      <MessageInput />
+      <MessageInput handleSubmit={handleSendMessage} />
     </div>
   );
 }

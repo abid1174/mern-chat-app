@@ -34,12 +34,6 @@ export default function Messages({ chatId }: Props) {
       ) : (
         <div>No Messages</div>
       )}
-
-      {/* <Message text="Hello Ammu" myMsg={true} image="" />
-      <Message text="Ki koro" myMsg={true} image="" />
-      <Message text="Ami Khelci" myMsg={false} image="" />
-      <Message text="Kheyeco?" myMsg={true} image="" />
-      <Message text="Ha Kheyeci" myMsg={false} image="" /> */}
     </div>
   );
 }

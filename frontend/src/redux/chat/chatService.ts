@@ -1,6 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { METHODS } from "http";
-import { url } from "inspector";
 import { getToken } from "utils/token";
 
 export const chatApi = createApi({
@@ -29,7 +27,22 @@ export const chatApi = createApi({
         },
       }),
     }),
+    sendMessage: builder.mutation({
+      query: (payload) => ({
+        url: `/message/`,
+        method: "post",
+        body: payload,
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          Authorization: `Bearer ${getToken()}`,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useAccessChatMutation, useGetMessagesQuery } = chatApi;
+export const {
+  useAccessChatMutation,
+  useGetMessagesQuery,
+  useSendMessageMutation,
+} = chatApi;

@@ -12,11 +12,10 @@ const accessChat = asyncHandler(async (req, res) => {
 
   let hasChat = await ChatModel.find({
     isGroupChat: false,
-    users: [userId],
-    owner: req.user._id,
+    users: { $all: [userId, req.user._id] },
   })
     .populate("users", "-password")
-    .populate("owner", "-password")
+    .populate("organizer", "-password")
     .populate("latestMessage");
 
   console.log("haschat ---------->", hasChat);
@@ -32,8 +31,8 @@ const accessChat = asyncHandler(async (req, res) => {
     const newChat = {
       name: "chat1",
       isGroupChat: false,
-      owner: req.user._id,
-      users: [userId],
+      organizer: req.user._id,
+      users: [userId, req.user._id],
     };
 
     try {
@@ -42,7 +41,7 @@ const accessChat = asyncHandler(async (req, res) => {
         _id: createdChat._id,
       })
         .populate("users", "-password")
-        .populate("owner", "-password");
+        .populate("organizer", "-password");
 
       res.status(201).send({ data: fullChat });
     } catch (error) {
