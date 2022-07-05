@@ -22,6 +22,28 @@ app.use(notFound);
 app.use(errorHandler);
 
 // Listening Server
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
+});
+
+const io = require("socket.io")(server, {
+  pingTimeout: 60000,
+  cors: {
+    origin: "http://localhost:3000",
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log("Connected to socket io.");
+
+  socket.on("setup", (userData) => {
+    socket.join(userData.id);
+    console.log(userData.id + " connected to the socket");
+    socket.emit("connected");
+  });
+
+  socket.on("join chat", (roomId) => {
+    socket.join(roomId);
+    console.log("One User joined the room: " + roomId);
+  });
 });

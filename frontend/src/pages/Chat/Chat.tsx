@@ -1,5 +1,5 @@
 import User from "../../components/UserCard";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   useCurrentUserQuery,
   useGetAllUsersQuery,
@@ -12,9 +12,12 @@ import { useAccessChatMutation } from "redux/chat/chatService";
 import { setChatData } from "redux/chat/chatSlice";
 import UserProfile from "components/UserProfile";
 import ChatSection from "./ChatSection";
+import { socket } from "utils/socket";
 
 export default function Chat() {
   const dispatch = useAppDispatch();
+  const [selectedUser, setSelectedUser] = useState(false);
+
   const {
     data: userData,
     isError: isUserError,
@@ -24,6 +27,7 @@ export default function Chat() {
   const { data: usersData, isSuccess: isUsersSuccess } = useGetAllUsersQuery();
   const user: IUser = useAppSelector((state) => state?.user?.data);
   const users: IUser[] = useAppSelector((state) => state?.user?.allUsers);
+
 
   const [
     handleAccessChat,
@@ -35,6 +39,8 @@ export default function Chat() {
     },
   ] = useAccessChatMutation();
 
+
+
   useEffect(() => {
     dispatch(setUser(userData));
   }, [isUserSuccess]);
@@ -43,8 +49,9 @@ export default function Chat() {
     dispatch(setUsers(usersData));
   }, [isUsersSuccess]);
 
-  const handleStartChat = (userId: string) => {
-    handleAccessChat(userId);
+  const handleStartChat = (participantId: string) => {
+    handleAccessChat(participantId);
+    setSelectedUser(true);
   };
 
   useEffect(() => {
@@ -85,7 +92,13 @@ export default function Chat() {
               </div>
 
               {/* middle chat section  */}
-              <ChatSection />
+              {selectedUser ? (
+                <ChatSection />
+              ) : (
+                <div className="flex-1 flex justify-center items-center text-white text-lg uppercase">
+                  Select a user to start chat
+                </div>
+              )}
 
               {/* middle section end  */}
               <div className="pr-4 sm:pr-6 lg:pr-8 lg:flex-shrink-0 lg:border-l lg:border-gray-200 xl:pr-0 hidden xl:block">

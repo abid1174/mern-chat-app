@@ -18,8 +18,6 @@ const accessChat = asyncHandler(async (req, res) => {
     .populate("organizer", "-password")
     .populate("latestMessage");
 
-  console.log("haschat ---------->", hasChat);
-
   hasChat = await UserModel.populate(hasChat, {
     path: "latestMessage.sender",
     select: "name email image",

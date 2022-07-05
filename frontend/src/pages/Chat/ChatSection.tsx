@@ -1,16 +1,19 @@
+import React, { useEffect, useState } from "react";
 import MessageInput from "components/MessageInput";
 import Avatar from "components/Avatar";
 import { EmptyUser, IUser } from "model/user";
 import Messages from "./Messages";
 import { useAppSelector } from "redux/store";
-import React from "react";
 import { useSendMessageMutation } from "redux/chat/chatService";
+import { socket } from "utils/socket";
 
 type Props = {};
 
 export default function ChatSection({}: Props) {
   const [handleSendMsg, { isSuccess }] = useSendMessageMutation();
+  const [socketConnected, setSocketConnected] = useState(false);
   const chatStateData: any = useAppSelector((state) => state?.chat?.data);
+  const user = useAppSelector((state) => state.user.data);
   const {
     _id: chatId,
     isGroupChat,
@@ -22,6 +25,20 @@ export default function ChatSection({}: Props) {
   if (Array.isArray(participants) && participants.length > 0) {
     participant = participants[0];
   }
+
+  useEffect(() => {
+    if (user?.id) {
+      socket.emit("setup", user);
+    }
+
+    socket.on("connection", () => setSocketConnected(true));
+  }, [user]);
+
+  useEffect(() => {
+    if (chatId) {
+      socket.emit("join chat", chatId);
+    }
+  }, [isSuccess, chatId]);
 
   const handleSendMessage = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
