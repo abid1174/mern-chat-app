@@ -41,7 +41,11 @@ npm start
 
 #### Screens
 
+Login
 ![Login Page](./images/mern-chat-login.png)
+
+Register
+![Register Page](./images/mern-chat-register.png)
 
 ## Contributing
 
