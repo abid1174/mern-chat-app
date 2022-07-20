@@ -30,6 +30,15 @@ export default function ChatSection({}: Props) {
   }
 
   useEffect(() => {
+    socket.off("message_received").on("message_received", (message) => {
+      console.log(message);
+
+      // set message
+      dispatch(setMessage(message));
+    });
+  }, []);
+
+  useEffect(() => {
     if (user?.id) {
       socket?.emit("setup", user);
     }
@@ -47,14 +56,6 @@ export default function ChatSection({}: Props) {
       socket.emit("new_message", messageData.data);
     }
   }, [isSuccess]);
-
-  useEffect(() => {
-    socket.on("message_received", (message) => {
-      console.log(message); // triggering multiple times
-
-      // set message
-    });
-  });
 
   const handleSendMessage = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {

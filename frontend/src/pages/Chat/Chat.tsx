@@ -10,6 +10,7 @@ import SearchUser from "./SearchUser";
 import { useAccessChatMutation } from "redux/chat/chatService";
 import UserProfile from "components/UserProfile";
 import ChatSection from "./ChatSection";
+import { socket } from "utils/socket";
 
 export default function Chat() {
   const dispatch = useAppDispatch();
@@ -26,6 +27,8 @@ export default function Chat() {
     handleAccessChat(participantId);
     setSelectedUser(true);
   };
+
+
 
   return (
     <div>
