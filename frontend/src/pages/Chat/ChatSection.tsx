@@ -3,14 +3,17 @@ import MessageInput from "components/MessageInput";
 import Avatar from "components/Avatar";
 import { EmptyUser, IUser } from "model/user";
 import Messages from "./Messages";
-import { useAppSelector } from "redux/store";
+import { useAppDispatch, useAppSelector } from "redux/store";
 import { useSendMessageMutation } from "redux/chat/chatService";
 import { socket } from "utils/socket";
+import { setMessage } from "redux/chat/chatSlice";
 
 type Props = {};
 
 export default function ChatSection({}: Props) {
-  const [handleSendMsg, { isSuccess }] = useSendMessageMutation();
+  const dispatch = useAppDispatch();
+  const [handleSendMsg, { data: messageData, isSuccess }] =
+    useSendMessageMutation();
   const [socketConnected, setSocketConnected] = useState(false);
   const chatStateData: any = useAppSelector((state) => state?.chat?.data);
   const user = useAppSelector((state) => state.user.data);
@@ -28,17 +31,30 @@ export default function ChatSection({}: Props) {
 
   useEffect(() => {
     if (user?.id) {
-      socket.emit("setup", user);
+      socket?.emit("setup", user);
     }
 
     socket.on("connection", () => setSocketConnected(true));
-  }, [user]);
+
+    return () => {
+      socket.off("connection", () => {});
+    };
+  }, [user, socket]);
 
   useEffect(() => {
-    if (chatId) {
-      socket.emit("join chat", chatId);
+    if (messageData) {
+      console.log("emiting,,,,,,");
+      socket.emit("new_message", messageData.data);
     }
-  }, [isSuccess, chatId]);
+  }, [isSuccess]);
+
+  useEffect(() => {
+    socket.on("message_received", (message) => {
+      console.log(message); // triggering multiple times
+
+      // set message
+    });
+  });
 
   const handleSendMessage = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {

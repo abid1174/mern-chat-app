@@ -4,59 +4,28 @@ import {
   useCurrentUserQuery,
   useGetAllUsersQuery,
 } from "../../redux/user/userService";
-import { setUser, setUsers } from "../../redux/user/userSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { EmptyUser, IUser } from "../../model/user";
+import { IUser } from "../../model/user";
 import SearchUser from "./SearchUser";
 import { useAccessChatMutation } from "redux/chat/chatService";
-import { setChatData } from "redux/chat/chatSlice";
 import UserProfile from "components/UserProfile";
 import ChatSection from "./ChatSection";
-import { socket } from "utils/socket";
 
 export default function Chat() {
   const dispatch = useAppDispatch();
   const [selectedUser, setSelectedUser] = useState(false);
 
-  const {
-    data: userData,
-    isError: isUserError,
-    isLoading: isUserLoading,
-    isSuccess: isUserSuccess,
-  } = useCurrentUserQuery();
-  const { data: usersData, isSuccess: isUsersSuccess } = useGetAllUsersQuery();
+  useCurrentUserQuery();
+  useGetAllUsersQuery();
+  const [handleAccessChat] = useAccessChatMutation();
+
   const user: IUser = useAppSelector((state) => state?.user?.data);
   const users: IUser[] = useAppSelector((state) => state?.user?.allUsers);
-
-
-  const [
-    handleAccessChat,
-    {
-      data: chatData,
-      isLoading: isChatLoading,
-      isError: isChatError,
-      isSuccess: isChatSuccess,
-    },
-  ] = useAccessChatMutation();
-
-
-
-  useEffect(() => {
-    dispatch(setUser(userData));
-  }, [isUserSuccess]);
-
-  useEffect(() => {
-    dispatch(setUsers(usersData));
-  }, [isUsersSuccess]);
 
   const handleStartChat = (participantId: string) => {
     handleAccessChat(participantId);
     setSelectedUser(true);
   };
-
-  useEffect(() => {
-    dispatch(setChatData(chatData));
-  }, [isChatSuccess]);
 
   return (
     <div>

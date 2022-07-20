@@ -9,6 +9,8 @@ export const userApi = createApi({
     baseUrl: "http://localhost:8000/api",
   }),
   endpoints: (builder) => ({
+
+    // Login User 
     loginUser: builder.mutation({
       query: (data) => ({
         url: "/user/login",
@@ -19,6 +21,8 @@ export const userApi = createApi({
         body: data,
       }),
     }),
+
+    // Register User 
     registerUser: builder.mutation({
       query: (newUser) => ({
         url: "/user",
@@ -29,6 +33,8 @@ export const userApi = createApi({
         },
       }),
     }),
+
+    // Get Current User
     currentUser: builder.query<IUser, void>({
       query: () => ({
         url: "/user",
@@ -38,6 +44,8 @@ export const userApi = createApi({
         },
       }),
     }),
+
+    // Get All Users 
     getAllUsers: builder.query<IUser[], void>({
       query: () => ({
         url: "/user/all",

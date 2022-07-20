@@ -6,7 +6,6 @@ import * as yup from "yup";
 import { useLoginUserMutation } from "../redux/user/userService";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { setUser } from "../redux/user/userSlice";
 import { setToken } from "../utils/token";
 
 const schema = yup
@@ -36,14 +35,8 @@ export default function SingIn({ handleChangeForm }: IProps) {
   });
 
   useEffect(() => {
-    if (data) {
-      const { token, ...rest } = data;
-      dispatch(setUser(rest));
-      setToken(token);
-    }
-
     if (isSuccess) navigate("chat");
-  }, [isSuccess, data]);
+  }, [isSuccess]);
 
   return (
     <form

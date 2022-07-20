@@ -39,6 +39,10 @@ npm start
 - [MongoDB](https://www.mongodb.com/)
 - [SocketIO](https://socket.io/)
 
+#### Screens
+
+![Login Page](./images/mern-chat-login.png)
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
