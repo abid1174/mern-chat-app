@@ -26,14 +26,19 @@ export default function ChatSection({}: Props) {
 
   let participant = EmptyUser;
   if (Array.isArray(participants) && participants.length > 0) {
-    participant = participants[0];
+    // find chat members without signed user
+    let filtered = participants.filter((p) => p._id !== user.id);
+
+    // if chat is not grouped
+    participant = filtered[0];
   }
 
+  // getting message from socket emit event
   useEffect(() => {
     socket.off("message_received").on("message_received", (message) => {
       console.log(message);
 
-      // set message
+      // store message to reducer state
       dispatch(setMessage(message));
     });
   }, []);
@@ -52,20 +57,20 @@ export default function ChatSection({}: Props) {
 
   useEffect(() => {
     if (messageData) {
+      console.log(messageData);
       console.log("emiting,,,,,,");
+      dispatch(setMessage(messageData.data));
       socket.emit("new_message", messageData.data);
     }
   }, [isSuccess]);
 
-  const handleSendMessage = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      // @ts-ignore
-      const content = e.target?.value;
-      handleSendMsg({
-        content,
-        chatId,
-      });
-    }
+  // hit send message api and store message to db
+  const handleSendMessage = (content: string) => {
+    console.log("message sending .....");
+    handleSendMsg({
+      content,
+      chatId,
+    });
   };
 
   return (

@@ -39,7 +39,14 @@ function Messages({ chatId }: Props) {
           if (msg.sender?._id === id) {
             myMessage = true;
           }
-          return <Message text={msg?.content} myMsg={myMessage} image="" />;
+          return (
+            <Message
+              key={msg._id}
+              text={msg?.content}
+              myMsg={myMessage}
+              image=""
+            />
+          );
         })
       ) : (
         <div>No Messages</div>
