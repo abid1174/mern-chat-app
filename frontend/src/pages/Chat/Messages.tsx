@@ -44,7 +44,7 @@ function Messages({ chatId }: Props) {
               key={msg._id}
               text={msg?.content}
               myMsg={myMessage}
-              image=""
+              image={msg.sender.image}
             />
           );
         })

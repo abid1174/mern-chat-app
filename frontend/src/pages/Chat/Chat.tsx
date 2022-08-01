@@ -28,8 +28,6 @@ export default function Chat() {
     setSelectedUser(true);
   };
 
-
-
   return (
     <div>
       <div>
