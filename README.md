@@ -47,6 +47,9 @@ Login
 Register
 ![Register Page](./images/mern-chat-register.png)
 
+Chat View
+![Register Page](./images/chat.jpg)
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
