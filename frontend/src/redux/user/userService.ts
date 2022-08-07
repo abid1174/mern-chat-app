@@ -9,8 +9,7 @@ export const userApi = createApi({
     baseUrl: "http://localhost:8000/api",
   }),
   endpoints: (builder) => ({
-
-    // Login User 
+    // Login User
     loginUser: builder.mutation({
       query: (data) => ({
         url: "/user/login",
@@ -22,7 +21,7 @@ export const userApi = createApi({
       }),
     }),
 
-    // Register User 
+    // Register User
     registerUser: builder.mutation({
       query: (newUser) => ({
         url: "/user",
@@ -45,13 +44,26 @@ export const userApi = createApi({
       }),
     }),
 
-    // Get All Users 
+    // Get All Users
     getAllUsers: builder.query<IUser[], void>({
       query: () => ({
         url: "/user/all",
         headers: {
           Authorization: `Bearer ${getToken()}`,
         },
+      }),
+    }),
+
+    // Update profile image
+    updateProfileImage: builder.mutation({
+      query: (data) => ({
+        method: "PATCH",
+        url: "/user/edit/profile/image",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          Authorization: `Bearer ${getToken()}`,
+        },
+        body: data,
       }),
     }),
   }),
@@ -62,4 +74,5 @@ export const {
   useLoginUserMutation,
   useCurrentUserQuery,
   useGetAllUsersQuery,
+  useUpdateProfileImageMutation,
 } = userApi;

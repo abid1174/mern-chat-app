@@ -1,6 +1,6 @@
 type Props = {
   image: string;
-  status: boolean;
+  status: "active" | "inactive" | "none";
   size: "lg" | "md" | "sm" | "xs";
 };
 
@@ -18,8 +18,12 @@ export default function Avatar({ image, status, size }: Props) {
     >
       <img src={image} className={`rounded-full ${sizes[size]}`} />
 
-      {status && (
-        <div className="absolute right-0 bottom-0 w-3 h-3 rounded-full bg-red-500"></div>
+      {status !== "none" && (
+        <div
+          className={`absolute right-0 bottom-0 w-3 h-3 rounded-full ${
+            status === "active" && "bg-green-500"
+          } ${status === "inactive" && "bg-red-500"}`}
+        ></div>
       )}
     </div>
   );

@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const UserModel = require("../models/userModel");
 const { generateToken } = require("../utils/token");
 const bcrypt = require("bcryptjs");
+const { uploadProfileImage } = require("../services/uploadService");
 
 /**
  * Register user controller
@@ -114,9 +115,36 @@ const getUsers = asyncHandler(async (req, res) => {
   res.send(finalUsers);
 });
 
+/**
+ * change profile image api
+ */
+const changeProfileImage = asyncHandler(async (req, res) => {
+  const { userId, image } = req.body;
+
+  const imageUrl = await uploadProfileImage(image);
+
+  const doc = await UserModel.findOneAndUpdate(
+    { _id: userId },
+    { image: imageUrl }
+  );
+
+  if (doc) {
+    res.json({
+      message: "Profile updated successfully.",
+      data: {
+        id: doc._id,
+        image: doc.image,
+      },
+    });
+  } else {
+    res.status(500).json({ message: "Something went wrong!" });
+  }
+});
+
 module.exports = {
   registerUser,
   loginUser,
   getUsers,
   getCurrentUser,
+  changeProfileImage,
 };

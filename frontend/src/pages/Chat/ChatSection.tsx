@@ -77,7 +77,7 @@ export default function ChatSection({}: Props) {
     <div className="flex-1 p:2 sm:pb-6 justify-between flex flex-col h-screen xl:flex">
       <div className="flex sm:items-center justify-between py-3 border-b border-gray-600 p-3">
         <div className="flex items-center space-x-4">
-          <Avatar image={participant?.image} size="lg" status={false} />
+          <Avatar image={participant?.image} size="lg" status="active" />
           <div className="flex flex-col leading-tight">
             <div className="text-1xl mt-1 flex items-center">
               <span className="text-gray-200 mr-3">{participant?.name}</span>

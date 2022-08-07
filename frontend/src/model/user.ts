@@ -11,7 +11,6 @@ export interface IUser {
 }
 
 export const EmptyUser = {
-  _id: "",
   id: "",
   name: "",
   email: "",

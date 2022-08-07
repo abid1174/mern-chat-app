@@ -29,7 +29,7 @@ export default function User({
       onClick={() => handleClick(id)}
     >
       <div className="flex-shrink-0">
-        <Avatar image={image} size="lg" status={!!status} />
+        <Avatar image={image} size="lg" status="active" />
       </div>
       <div className="flex-1 min-w-0">
         <a href="#" className="focus:outline-none">

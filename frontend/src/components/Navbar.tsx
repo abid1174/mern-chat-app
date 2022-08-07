@@ -44,7 +44,7 @@ export default function Navbar({}: Props) {
               </div>
               <div className="ml-4 relative flex-shrink-0">
                 <div>
-                  <Avatar image={image} status={false} size="md" />
+                  <Avatar image={image} status="active" size="md" />
                 </div>
               </div>
             </div>

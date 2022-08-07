@@ -1,26 +1,24 @@
 import User from "../../components/UserCard";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   useCurrentUserQuery,
   useGetAllUsersQuery,
 } from "../../redux/user/userService";
-import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { useAppSelector } from "../../redux/store";
 import { IUser } from "../../model/user";
 import SearchUser from "./SearchUser";
 import { useAccessChatMutation } from "redux/chat/chatService";
 import UserProfile from "components/UserProfile";
 import ChatSection from "./ChatSection";
-import { socket } from "utils/socket";
+import EditProfile from "./EditProfile";
 
 export default function Chat() {
-  const dispatch = useAppDispatch();
   const [selectedUser, setSelectedUser] = useState(false);
 
   useCurrentUserQuery();
   useGetAllUsersQuery();
   const [handleAccessChat] = useAccessChatMutation();
 
-  const user: IUser = useAppSelector((state) => state?.user?.data);
   const users: IUser[] = useAppSelector((state) => state?.user?.allUsers);
 
   const handleStartChat = (participantId: string) => {
@@ -37,11 +35,7 @@ export default function Chat() {
             <div className="flex-1 min-w-0  xl:flex">
               <div className="border-b border-gray-800 xl:border-b-0 xl:flex-shrink-0 xl:w-64 xl:border-r xl:border-gray-600 ">
                 <div className="h-full pl-4 pr-2 py-6 sm:pl-6 lg:pl-8 xl:pl-0">
-                  <UserProfile
-                    name={user?.name}
-                    email={user?.email}
-                    image={user?.image}
-                  />
+                  <UserProfile />
                   <SearchUser />
 
                   {Array.isArray(users) &&
@@ -72,7 +66,9 @@ export default function Chat() {
 
               {/* middle section end  */}
               <div className="pr-4 sm:pr-6 lg:pr-8 lg:flex-shrink-0 lg:border-l lg:border-gray-200 xl:pr-0 hidden xl:block">
-                <div className="h-full pl-6 py-6 lg:w-80"></div>
+                <div className="h-full pl-6 py-6 lg:w-80">
+                  <EditProfile />
+                </div>
               </div>
             </div>
           </div>

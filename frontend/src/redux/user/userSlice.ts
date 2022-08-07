@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import { setToken } from "utils/token";
 import { EmptyUser, IUserState } from "../../model/user";
 import { userApi } from "./userService";
@@ -32,7 +32,7 @@ export const userSlice = createSlice({
     builder.addMatcher(
       userApi.endpoints.currentUser.matchFulfilled,
       (state, { payload }) => {
-        state.data = payload;
+        state.data = { ...payload };
       }
     );
 
@@ -40,7 +40,18 @@ export const userSlice = createSlice({
     builder.addMatcher(
       userApi.endpoints.getAllUsers.matchFulfilled,
       (state, { payload }) => {
-        state.allUsers = payload;
+        state.allUsers = [...payload];
+      }
+    );
+
+    // save updated profile image
+    builder.addMatcher(
+      userApi.endpoints.updateProfileImage.matchFulfilled,
+      (state, { payload }) => {
+        console.log(current(state));
+        const newData = { ...state.data, image: payload.data.image };
+        return { ...state, data: newData };
+        console.log(current(state));
       }
     );
   },

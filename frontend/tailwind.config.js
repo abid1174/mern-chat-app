@@ -24,6 +24,9 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      colors: {
+        primary: "#14b8a6",
+      },
       animation: {
         fadeOut: "fadeOut 1s ease-out",
         fadeIn: "fadeIn .4s ease-in",

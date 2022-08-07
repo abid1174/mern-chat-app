@@ -106,7 +106,7 @@ export default function SignUp({ handleChangeForm }: IProps) {
         />
       </div>
       <button
-        className="w-full my-4 py-2 bg-teal-500 text-white font-semibold rounded-lg"
+        className="w-full my-4 py-2 bgPrimary text-white font-semibold rounded-lg"
         type="submit"
       >
         Sign up
