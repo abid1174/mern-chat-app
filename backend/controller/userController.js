@@ -123,10 +123,9 @@ const changeProfileImage = asyncHandler(async (req, res) => {
 
   const imageUrl = await uploadProfileImage(image);
 
-  const doc = await UserModel.findOneAndUpdate(
-    { _id: userId },
-    { image: imageUrl }
-  );
+  await UserModel.findOneAndUpdate({ _id: userId }, { image: imageUrl });
+
+  const doc = await UserModel.findById({ _id: userId });
 
   if (doc) {
     res.json({
